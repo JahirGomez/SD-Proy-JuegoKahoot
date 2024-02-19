@@ -1,0 +1,3 @@
+pregunta1 resA respB respC respD
+pregunta2 resA respB respC respD
+pregunta3 resA respB respC respD

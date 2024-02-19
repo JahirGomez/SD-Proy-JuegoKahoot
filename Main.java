@@ -20,6 +20,9 @@ public class Main {
         } catch (IOException ie) {
             System.out.println("Error reading/writing from/to socket");
             ie.printStackTrace();
+        } catch (InterruptedException e) {
+            System.out.println("Error reading/writing from/to socket");
+            e.printStackTrace();
         }
 
     }

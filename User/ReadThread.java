@@ -2,6 +2,8 @@ package User;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
+import java.util.Arrays;
+import java.util.Vector;
 
 class ReadThread implements Runnable {
     private UserThreadInfo userThreadInfo;
@@ -20,9 +22,22 @@ class ReadThread implements Runnable {
             String message;
             try {
                 userThreadInfo.getSocket().receive(datagram);
-                message = new String(buffer, 0, datagram.getLength(), "UTF-8");
-                if (!message.startsWith(User.getUserName()))
-                    System.out.println(message);
+                message = new String(buffer, 0, datagram.getLength(), "UTF-8"); // tipo de dato recibido
+                if (!message.startsWith(User.getUserName())) {
+
+                    if (message.startsWith("GAME")) {
+                        String[] parts = message.split(" ");
+                        User.currentQuestion = new Vector<>(
+                                Arrays.asList(parts[0], parts[1], parts[2], parts[3], parts[4]));
+                    } /*
+                       * else if (message.startsWith("FINISH")) {
+                       * System.out.println(message);
+                       * }
+                       */else {
+                        System.out.println(message);
+                    }
+                }
+
             } catch (IOException e) {
                 System.out.println("Socket closed!");
             }
