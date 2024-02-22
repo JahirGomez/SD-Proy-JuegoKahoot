@@ -19,9 +19,9 @@ public class KahootGame {
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
-                String[] separatedInfo = data.split(" ");
+                String[] separatedInfo = data.split(",");
                 Vector<String> questionInfo = new Vector<>(Arrays.asList(separatedInfo[0], separatedInfo[1],
-                        separatedInfo[2], separatedInfo[3], separatedInfo[4]));
+                        separatedInfo[2], separatedInfo[3], separatedInfo[4], separatedInfo[5]));
                 amount++;
                 questions.add(questionInfo);
             }

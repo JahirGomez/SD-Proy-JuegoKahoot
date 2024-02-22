@@ -10,6 +10,7 @@ public class User extends Thread {
     static volatile boolean finished = false;
     private static String userName;
     private UserThreadInfo userThreadInfo;
+    private Vector randomQuestion;
 
     public static KahootGame game = null;
     public static Vector<String> currentQuestion = new Vector<>();
@@ -51,6 +52,13 @@ public class User extends Thread {
             }
 
             message = this.showUserQuestion(game.getRandomQuestion());
+            randomQuestion = new Vector<>( game.getRandomQuestion());
+            new MainGUI(getUserName(), randomQuestion);
+
+
+
+            //System.out.println("aqui "+  game.getRandomQuestion().get(1));
+       
             System.out.println("Sending question: " + currentQuestion.get(0));
             message = "QUESTION: " + message;
             this.sendMessage(message);
