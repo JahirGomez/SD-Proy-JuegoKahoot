@@ -28,7 +28,7 @@ class ReadThread implements Runnable {
                     if (message.startsWith("GAME")) {
                         String[] parts = message.split(",");
                         User.currentQuestion = new Vector<>(
-                                Arrays.asList(parts[0], parts[1], parts[2], parts[3], parts[4]));
+                                Arrays.asList(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5]));
                     } /*
                        * else if (message.startsWith("FINISH")) {
                        * System.out.println(message);

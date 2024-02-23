@@ -10,12 +10,14 @@ public class User extends Thread {
     static volatile boolean finished = false;
     private static String userName;
     private UserThreadInfo userThreadInfo;
-    private Vector randomQuestion;
+    private int indexAnwer;
+    
 
     public static KahootGame game = null;
     public static Vector<String> currentQuestion = new Vector<>();
+    
 
-    public User(String grp, int port, String name) throws IOException, InterruptedException {
+    public User(String grp, int port, String name)  throws IOException, InterruptedException {
         userName = name;
         this.userThreadInfo = new UserThreadInfo(grp, port);
         this.userThreadInfo.getSocket().setTimeToLive(0);
@@ -49,15 +51,12 @@ public class User extends Thread {
 
             if (game.isOver()) {
                 break;
-            }
+            }/*  */
 
-            message = this.showUserQuestion(game.getRandomQuestion());
-            randomQuestion = new Vector<>( game.getRandomQuestion());
-            new MainGUI(getUserName(), randomQuestion);
-
-
-
-            //System.out.println("aqui "+  game.getRandomQuestion().get(1));
+            message = this.showUserQuestion(game.getRandomQuestion(indexAnwer));
+            new MainGUI(getUserName(), currentQuestion);
+            
+            
        
             System.out.println("Sending question: " + currentQuestion.get(0));
             message = "QUESTION: " + message;
@@ -80,20 +79,11 @@ public class User extends Thread {
     }
 
     public boolean verifyAnswer(String letter) {
+        Vector<String> answers = new KahootGame("preguntas.txt").getAnswers();
         boolean correct = false;
-        switch (letter) {
-            case "A":
-                correct = true;
-                break;
-
-            case "B":
-                break;
-
-            case "C":
-                break;
-
-            case "D":
-                break;
+        System.err.println("Correct Answer "+ answers.get(indexAnwer));
+        if(letter == answers.get(indexAnwer)){
+            correct = true;
         }
         return correct;
 
@@ -114,6 +104,11 @@ public class User extends Thread {
         this.sendMessage(message);
 
         while (true) {
+            byte[] buffer = new byte[1024];
+            DatagramPacket datagram = new DatagramPacket(buffer, buffer.length);
+            this.userThreadInfo.getSocket().receive(datagram);
+
+            System.out.println("tengo  " + new String(datagram.getData(), 0, datagram.getLength())+"algo");
 
             message = sc.nextLine();
 
@@ -151,5 +146,21 @@ public class User extends Thread {
         finished = true;
         this.userThreadInfo.getSocket().leaveGroup(this.userThreadInfo.getGroup());
         this.userThreadInfo.getSocket().close();
+    }
+
+    @Override
+    public void run() {
+        try {
+            byte[] buffer = new byte[1024]; // Define un buffer para almacenar los datos recibidos
+
+            while (true) {
+                DatagramPacket packet = new DatagramPacket(buffer, buffer.length); // Crea un DatagramPacket para recibir datos
+                userThreadInfo.getSocket().receive(packet); // Espera a recibir un paquete de datos
+                String message = new String(packet.getData(), 0, packet.getLength()); // Convierte los datos recibidos a String
+                System.out.println("Imprimir mensaje " + message);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } 
     }
 }

@@ -38,8 +38,8 @@ public class KahootGame {
 
     }
 
-    public Vector<String> getRandomQuestion() {
-        int randomNum = ThreadLocalRandom.current().nextInt(0,
+    public Vector<String> getRandomQuestion(int randomNum) {
+        randomNum = ThreadLocalRandom.current().nextInt(0,
                 amountQuestion.size());
 
         int questionNum = amountQuestion.get(randomNum);
@@ -49,6 +49,15 @@ public class KahootGame {
 
     public boolean isOver() {
         return amountQuestion.isEmpty();
+    }
+
+   
+    public Vector<String> getAnswers(){
+        Vector<String> answers = new Vector<String>();
+        for (Vector<String> vector : KahootGame.questions) {
+            answers.add(vector.get(5));
+        }
+        return answers;
     }
 
 }

@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 import java.util.Vector;
 
 public class MainGUI extends JFrame {
-    private JLabel questionLabel;
-    private JButton[] optionButtons;
-    private Vector currentQuestion;
+    private static JLabel questionLabel;
+    private static JButton[] optionButtons;
+    private static Vector currentQuestion;
 
     public MainGUI(String username, Vector question) {
         setTitle("Kahoot Game");
@@ -40,7 +40,7 @@ public class MainGUI extends JFrame {
     }
 
 
-    private void updateUI() {
+    public static  void updateUI() {
         questionLabel.setText((String) currentQuestion.get(0)); // Obtener la pregunta del Vector
         for (int i = 0; i < 4; i++) {
             optionButtons[i].setText((String) currentQuestion.get(i + 1)); // Obtener las opciones del Vector

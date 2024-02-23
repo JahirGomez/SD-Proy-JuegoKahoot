@@ -1,4 +1,4 @@
-¿De que color es el caballo blanco de Napoleon?,Rojo,Blanco,Negro,Gris,Blanco
-¿Quien se comio la caca del caba...,yo,tu,el,ellos,yo
-¿Tas bien?,si,no,nel prro,nose,si
-¿Hi?,yes,of course,hi,bye,bye
+¿De que color es el caballo blanco de Napoleon?,A)Rojo,B)Blanco,C)Negro,D)Gris,B
+¿Quien se comio la caca del caba...,A)yo,B)tu,C)el,D)ellos,A
+¿Tas bien?,A)si,B)no,C)nel prro,D)nose,A
+¿Hi?,A)yes,B)of course,C)hi,D)bye,D
