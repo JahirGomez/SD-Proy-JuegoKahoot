@@ -45,7 +45,7 @@ public class Main extends JFrame {
         hostButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                userName = "GAME"; // Establecer el nombre de usuario como "GAME"
+                userName = "HOST"; // Establecer el nombre de usuario como "GAME"
                 startGame(); // Iniciar el juego con el nombre de usuario "GAME"
             }
         });
@@ -59,20 +59,8 @@ public class Main extends JFrame {
 
     private void startGame() {
         dispose(); // Cerrar la ventana de inicio de sesión
-        String group = "239.0.0.0";
-        int port = 1234;
-        try {
-            new User(group, port, userName);
-        } catch (SocketException se) {
-            System.out.println("Error creating socket");
-            se.printStackTrace();
-        } catch (IOException ie) {
-            System.out.println("Error reading/writing from/to socket");
-            ie.printStackTrace();
-        } catch (InterruptedException error) {
-            System.out.println("Error reading/writing from/to socket");
-            error.printStackTrace();
-        }
+        User user = new User(userName);
+        user.start();
     }
 
     public static void main(String[] args) {
