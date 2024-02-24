@@ -1,5 +1,6 @@
 package User;
 
+import java.awt.EventQueue;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
@@ -12,6 +13,7 @@ public class MulticastClient implements Runnable{
     private InetAddress group;
     private int port;
     private String username;
+    private MainGUI mainGUI;
 
     public MulticastClient(String group, int port, String username) throws IOException {
         this.group = InetAddress.getByName(group);
@@ -51,7 +53,20 @@ public class MulticastClient implements Runnable{
                 DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
                 socket.receive(packet);
                 Vector<String> question = deserializeQuestion(packet.getData());
-                new MainGUI(username, question);
+                System.out.println("VECTOR "+ question.get(0));
+                if (question.get(0).equals("END")){
+                    if (mainGUI != null) {
+                        mainGUI.dispose(); // Cerrar la instancia existente de MainGUI si existe
+                    }
+                }else{
+                    EventQueue.invokeLater(() -> {
+                        if (mainGUI != null) {
+                            mainGUI.dispose(); // Cerrar la instancia existente de MainGUI si existe
+                        }
+                        mainGUI = new MainGUI(username, question); // Crear una nueva instancia de MainGUI
+                    });
+                }
+                
             }
         } catch (IOException e) {
             e.printStackTrace();

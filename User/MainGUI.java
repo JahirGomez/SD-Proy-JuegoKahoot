@@ -9,6 +9,9 @@ public class MainGUI extends JFrame {
     private static JLabel questionLabel;
     private static JButton[] optionButtons;
     private static Vector currentQuestion;
+    private static JLabel timerLabel;
+    private static Timer timer;
+    private static int timeLeft = 15; // Tiempo inicial en segundos
 
     public MainGUI(String username, Vector question) {
         setTitle("Kahoot Game");
@@ -34,26 +37,57 @@ public class MainGUI extends JFrame {
         }
         add(questionPanel, BorderLayout.CENTER);
 
-       updateUI();
+        timerLabel = new JLabel("Time left: " + timeLeft);
+        add(timerLabel, BorderLayout.SOUTH);
+
+        timer = new Timer(1000, new TimerListener());
+        timer.start();
+
+        updateUI();
 
         setVisible(true);
     }
 
 
-    public static  void updateUI() {
+    public static void updateUI() {
         questionLabel.setText((String) currentQuestion.get(0)); // Obtener la pregunta del Vector
         for (int i = 0; i < 4; i++) {
             optionButtons[i].setText((String) currentQuestion.get(i + 1)); // Obtener las opciones del Vector
         }
     }
 
-    private class OptionButtonListener implements ActionListener {
+    private static class OptionButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton source = (JButton) e.getSource();
             String selectedOption = source.getText();
             // Handle selected option
-            updateUI();; // For now, just load the next question
+            updateUI(); // For now, just load the next question
         }
     }
+
+    private class TimerListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            timeLeft = timeLeft -1; // Disminuir el tiempo restante
+            timerLabel.setText("Time left: " + timeLeft);
+            if (timeLeft < 0) {
+                timer.stop(); // Detener el temporizador cuando llegue a cero
+                restartTimer();
+            }
+        }
+    }
+
+    // Método para reiniciar el temporizador
+    public void restartTimer() {
+        timer.stop(); // Detener el temporizador actual
+        timeLeft = 15; // Reiniciar el tiempo restante
+        timer = new Timer(1000, new TimerListener());
+        timerLabel.setText("Time left: " + timeLeft);
+        if (timeLeft < 0) {
+            timer.stop(); // Detener el temporizador cuando llegue a cero
+            restartTimer();
+        }
+    }
+    
 }

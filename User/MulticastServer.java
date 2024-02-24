@@ -51,6 +51,14 @@ public class MulticastServer implements Runnable{
                 socket.send(packet);
                 Thread.sleep(15000);
             }
+            if(kahootGame.isOver()){
+                byte[] data = new String("END, , , , ").getBytes();
+                DatagramPacket packet = new DatagramPacket(data, data.length, group, port);
+                socket.send(packet);
+                Thread.sleep(15000);
+            }
+            
+
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         } finally {
