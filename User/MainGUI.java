@@ -8,10 +8,11 @@ import java.util.Vector;
 public class MainGUI extends JFrame {
     private static JLabel questionLabel;
     private static JButton[] optionButtons;
-    private static Vector currentQuestion;
+    private static Vector<String> currentQuestion;
     private static JLabel timerLabel;
     private static Timer timer;
     private static int timeLeft = 15; // Tiempo inicial en segundos
+    private static int score;
 
     public MainGUI(String username, Vector question) {
         setTitle("Kahoot Game");
@@ -19,6 +20,7 @@ public class MainGUI extends JFrame {
         setSize(400, 300);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+        this.score = 0;
         currentQuestion = question;
 
         JPanel welcomePanel = new JPanel(new BorderLayout());
@@ -49,6 +51,10 @@ public class MainGUI extends JFrame {
     }
 
 
+    public int getScore() {
+        return score; // Método para obtener el puntaje
+    }
+
     public static void updateUI() {
         questionLabel.setText((String) currentQuestion.get(0)); // Obtener la pregunta del Vector
         for (int i = 0; i < 4; i++) {
@@ -61,6 +67,19 @@ public class MainGUI extends JFrame {
         public void actionPerformed(ActionEvent e) {
             JButton source = (JButton) e.getSource();
             String selectedOption = source.getText();
+
+            // Desactivar todos los botones después de que se haya presionado uno
+            for (JButton button : optionButtons) {
+                button.setEnabled(false);
+            }
+
+            if(selectedOption.trim().equals(currentQuestion.get(5).trim())){
+                System.out.println("Es Correcto");
+               score++;
+            }else{
+                System.out.println("No es correcto");
+            }
+            
             // Handle selected option
             updateUI(); // For now, just load the next question
         }

@@ -11,6 +11,7 @@ public class MulticastServer implements Runnable{
     private InetAddress group;
     private int port;
     private KahootGame kahootGame;
+    
 
     public MulticastServer(String group, int port, KahootGame kahootGame) throws IOException {
         this.group = InetAddress.getByName(group);
@@ -19,6 +20,7 @@ public class MulticastServer implements Runnable{
         socket = new MulticastSocket(port);
         socket.joinGroup(this.group);
     }
+    
 
     public void start() {
         try {

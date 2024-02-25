@@ -14,6 +14,7 @@ public class MulticastClient implements Runnable{
     private int port;
     private String username;
     private MainGUI mainGUI;
+    private int score;
 
     public MulticastClient(String group, int port, String username) throws IOException {
         this.group = InetAddress.getByName(group);
@@ -21,6 +22,7 @@ public class MulticastClient implements Runnable{
         this.username = username;
         socket = new MulticastSocket(port);
         socket.joinGroup(this.group);
+        this.score = 0;
     }
 
     public void start() {
@@ -53,14 +55,20 @@ public class MulticastClient implements Runnable{
                 DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
                 socket.receive(packet);
                 Vector<String> question = deserializeQuestion(packet.getData());
-                System.out.println("VECTOR "+ question.get(0));
+
                 if (question.get(0).equals("END")){
                     if (mainGUI != null) {
+                        score = score + mainGUI.getScore();
+                        System.out.println("FINAL SCORE: " + score);
+                        ResultGUI resultGUI = new ResultGUI(username, score); // Crear ventana ResultGUI con el puntaje
+                        resultGUI.setVisible(true);
                         mainGUI.dispose(); // Cerrar la instancia existente de MainGUI si existe
                     }
                 }else{
                     EventQueue.invokeLater(() -> {
                         if (mainGUI != null) {
+                            score = score + mainGUI.getScore();
+                            System.out.println("SCORE:"+ score );
                             mainGUI.dispose(); // Cerrar la instancia existente de MainGUI si existe
                         }
                         mainGUI = new MainGUI(username, question); // Crear una nueva instancia de MainGUI
