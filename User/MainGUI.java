@@ -13,6 +13,7 @@ public class MainGUI extends JFrame {
     private static Timer timer;
     private static int timeLeft = 15; // Tiempo inicial en segundos
     private static int score;
+    private static String userAnswer;
 
     public MainGUI(String username, Vector question) {
         setTitle("Kahoot Game");
@@ -45,7 +46,12 @@ public class MainGUI extends JFrame {
         timer = new Timer(1000, new TimerListener());
         timer.start();
 
-        updateUI();
+        if (currentQuestion.size()==6) {
+            updateUI();
+        }else{
+            dispose();
+        }        
+       
 
         setVisible(true);
     }
@@ -53,6 +59,10 @@ public class MainGUI extends JFrame {
 
     public int getScore() {
         return score; // Método para obtener el puntaje
+    }
+
+    public String getUserAnswer(){
+        return userAnswer;
     }
 
     public static void updateUI() {
@@ -67,6 +77,7 @@ public class MainGUI extends JFrame {
         public void actionPerformed(ActionEvent e) {
             JButton source = (JButton) e.getSource();
             String selectedOption = source.getText();
+            userAnswer = selectedOption;
 
             // Desactivar todos los botones después de que se haya presionado uno
             for (JButton button : optionButtons) {

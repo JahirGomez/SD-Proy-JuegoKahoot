@@ -1,0 +1,18 @@
+El programa implementa un juego de preguntas y respuestas estilo Kahoot, utilizando el paradigma de comunicación 
+de grupos de multicast para permitir la participación de múltiples usuarios en tiempo real. Aquí hay un resumen de su funcionamiento:
+
+MulticastServer: Este componente se encarga de enviar preguntas de trivia a los usuarios que se han unido al grupo 
+multicast. Utiliza un objeto de la clase KahootGame para obtener preguntas aleatorias desde un archivo de preguntas. Envía las preguntas como paquetes UDP al grupo multicast en intervalos regulares.
+
+MulticastClient: Cada instancia de este componente representa a un usuario que participa en el juego. Recibe las 
+preguntas de trivia enviadas por el MulticastServer y las muestra en una interfaz gráfica (MainGUI). El usuario puede seleccionar una respuesta, y la interfaz gráfica actualiza su puntaje en función de si la respuesta es correcta o incorrecta. Cuando el juego termina, el cliente envía su puntaje y respuestas al servidor.
+
+KahootGame: Esta clase gestiona las preguntas de trivia cargadas desde un archivo de preguntas. Selecciona 
+preguntas aleatorias y las proporciona al MulticastServer para su envío a los clientes.
+
+User: Esta clase proporciona una interfaz para que los usuarios inicien el juego, ya sea como servidor 
+(HOST) o como cliente. Si el usuario es el servidor, inicia un MulticastServer, y si es un HOst, inicia un 
+MulticastClient.
+
+El juego sigue ejecutándose hasta que se completa el conjunto de preguntas o hasta que el anfitrión decide finalizarlo. 
+Una vez que termina el juego, se muestra el puntaje final y las respuestas de los jugadores en el servidor.

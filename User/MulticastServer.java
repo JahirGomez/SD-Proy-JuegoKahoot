@@ -19,29 +19,40 @@ public class MulticastServer implements Runnable{
         this.kahootGame = kahootGame;
         socket = new MulticastSocket(port);
         socket.joinGroup(this.group);
+        run();
     }
     
-
-    public void start() {
-        try {
-            while (!kahootGame.isOver()) {
-                Vector<String> question = kahootGame.getRandomQuestion();
-                byte[] data = serializeQuestion(question); // Método a implementar para serializar la pregunta
-                DatagramPacket packet = new DatagramPacket(data, data.length, group, port);
-                socket.send(packet);
-                Thread.sleep(15000); // Esperar 15 segundos antes de enviar la siguiente pregunta
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            socket.close();
-        }
+    private byte[] serializeQuestion(Vector<String> question) {
+        String serialized = String.join(",", question); // Unir elementos del vector con comas
+        return serialized.getBytes(); // Obtener los bytes del string
     }
 
-    private byte[] serializeQuestion(Vector<String> question) {
-    String serialized = String.join(",", question); // Unir elementos del vector con comas
-    return serialized.getBytes(); // Obtener los bytes del string
-}
+    public void receiveUserData() {
+        try {
+            // Recibir el paquete del cliente
+            byte[] buffer = new byte[1024]; // Tamaño del buffer para recibir datos
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+            socket.receive(packet);
+
+            // Obtener los datos del paquete
+            byte[] data = packet.getData();
+            String message = new String(data);
+            System.out.println(message);
+
+            // Procesar el mensaje recibido (por ejemplo, guardar los datos en una base de datos)
+            String[] userData = message.split(",");
+            String username = userData[0];
+            //int score = Integer.parseInt(userData[1]);
+            /* String score = userData[1];
+            String userAnswers = userData[2];
+
+            System.out.println("USER: " + username + " SCORE: " + score + " ANSWERS: " + userAnswers); */
+
+            // Realizar las operaciones necesarias con los datos recibidos
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void run() {
@@ -54,16 +65,22 @@ public class MulticastServer implements Runnable{
                 Thread.sleep(15000);
             }
             if(kahootGame.isOver()){
-                byte[] data = new String("END, , , , ").getBytes();
+                byte[] data = new String("END").getBytes();
                 DatagramPacket packet = new DatagramPacket(data, data.length, group, port);
                 socket.send(packet);
                 Thread.sleep(15000);
             }
+
+            while (true) {
+                receiveUserData();
+            }
+
             
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         } finally {
+            System.out.println("Finalizo");
             socket.close();
         }
     }

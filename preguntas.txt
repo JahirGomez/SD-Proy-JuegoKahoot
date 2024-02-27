@@ -1,4 +1,5 @@
-¿De que color es el caballo blanco de Napoleon?,Rojo,Blanco,Negro,Gris,Blanco
-¿Quien se comio la caca del caba...,yo,tu,el,ellos,yo
-¿Tas bien?,si,no,nel prro,nose,si
-¿Hi?,yes,of course,hi,bye,bye
+¿Cual es la capital de Francia?,Paris,Londres,Berlin,Roma,Paris
+¿Quien escribio El principito?,Antoine de Saint-Exupery,Jorge Luis Borges,Julio Cortazar,Gabriel Garcia Marquez,Antoine de Saint-Exupery
+¿En que año llego el hombre a la Luna?,1969,1956,1984,1975,1969
+¿Cual es el rio mas largo del mundo?,Amazonas,Nilo,Misuri,Amazonas,Amazonas
+¿Quien pinto la Mona Lisa?,Leonardo da Vinci,Vincent van Gogh,Pablo Picasso,Rembrandt van Rijn,Leonardo da Vinci
